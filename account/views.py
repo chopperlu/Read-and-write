@@ -1,6 +1,5 @@
 from dj_rest_auth.views import LogoutView
 from django.contrib.auth.models import User
-from django.shortcuts import render
 from rest_framework import generics, permissions
 from . import serializers
 
@@ -12,6 +11,7 @@ class UserRegisterView(generics.CreateAPIView):
 
 class CustomLogoutView(LogoutView):
     permission_classes = (permissions.IsAuthenticated,)
+
 
 
 class UserListView(generics.ListAPIView):

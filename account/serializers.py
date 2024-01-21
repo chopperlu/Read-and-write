@@ -5,6 +5,8 @@ from django.contrib.auth.password_validation import validate_password
 from django.db import models
 from rest_framework import serializers
 
+from comment.serializers import CommentSerializer
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(required=True)
@@ -45,4 +47,5 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = ('password',)
+
 
