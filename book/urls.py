@@ -10,6 +10,5 @@ router.register('', views.BookViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    # path('', views.BookListCreateView.as_view()),
-    # path('<int:pk>/', views.BookDetailView.as_view()),
+
  ]

@@ -12,9 +12,9 @@ class Like(models.Model):
         unique_together = ['owner', 'book']
 
 
-class Favorite(models.Model):
-    owner = models.ForeignKey('auth.User', related_name='favorites', on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, related_name='favorites', on_delete=models.CASCADE)
+class Mylibrary(models.Model):
+    owner = models.ForeignKey('auth.User', related_name='mylibraries', on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, related_name='mylibraries', on_delete=models.CASCADE)
 
 
     class Meta:

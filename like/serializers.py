@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from like.models import Like
+from like.models import Like, Mylibrary
 
 
 class LikeSerializer(serializers.ModelSerializer):
@@ -26,3 +26,15 @@ class LikeUserSerializer(serializers.ModelSerializer):
         model = Like
         exclude = ('book', )
 
+class MylibrarySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Mylibrary
+        fields = ('id', 'book')
+
+
+    def to_representation(self, instance):
+        repr = super().to_representation(instance)
+        repr['book_title'] = instance.book.title
+        preview = instance.book.preview
+        repr['book_preview'] = preview.url if preview else None
+        return repr

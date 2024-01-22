@@ -4,7 +4,8 @@ from .models import Like
 from book.permissions import IsOwner
 
 
-class LikeCreateView(generics.CreateAPIView):
+class LikeListCreateView(generics.ListCreateAPIView):
+    queryset = Like.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = serializers.LikeSerializer
 

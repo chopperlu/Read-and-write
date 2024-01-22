@@ -47,4 +47,16 @@ class BookDetailSerializer(serializers.ModelSerializer):
 
 
 
+# class CreateRatingSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Rating
+#         fields = ('id', 'star', 'book')
+#
+#
+#     def create(self, validated_data):
+#         rating = Rating.objects.update_or_create(
+#
+#         )
+
+
 

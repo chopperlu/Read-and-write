@@ -23,3 +23,15 @@ class Book(models.Model):
     class Meta:
         ordering = ('created_at',)
 
+
+# class Rating(models.Model):
+#     # id = models.CharField('IP address', max_length=20)
+#     star = models.ForeignKey(RatingStar, on_delete=models.CASCADE, verbose_name='star')
+#     movie = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='book')
+#
+#     def __str__(self):
+#         return f'{self.star} -> {self.book}'
+#
+#     class Meta:
+#         verbose_name = 'Rating'
+#         verbose_name_plural = 'Ratings'

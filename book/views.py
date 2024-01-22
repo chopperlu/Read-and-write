@@ -1,18 +1,29 @@
 from django.shortcuts import render
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions
 from rest_framework.decorators import action
+from rest_framework.filters import SearchFilter
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from book import serializers
 from book.models import Book
 from book.permissions import IsOwner, IsOwnerOrAdmin
-from like.models import Favorite
+from like.models import  Mylibrary
 from like.serializers import LikeUserSerializer
 
 
+class StandartResultPagination(PageNumberPagination):
+    page_size = 5
+    page_query_param = 'page'
+
 class BookViewSet(ModelViewSet):
     queryset = Book.objects.all()
+    pagination_class = StandartResultPagination
+    filter_backends = (DjangoFilterBackend, SearchFilter)
+    search_fields = ('title', 'description')
+    filterset_fields = ('owner', 'category')
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -41,18 +52,22 @@ class BookViewSet(ModelViewSet):
         return Response(serializer.data, status=200)
 
     @action(['POST', 'DELETE'], detail=True)
-    def favorites(self, request, pk):
+    def mylibraries(self, request, pk):
         book = self.get_object()
         user = request.user
-        favorite = user.favorites.filter(book=book)
+        mylibrary = user.mylibraries.filter(book=book)
 
         if request.method == 'POST':
-            if favorite.exists():
+            if mylibrary.exists():
                 return Response({'msg': 'Already in Mylibrary'}, status=400)
-            Favorite.objects.create(owner=user, book=book)
+            Mylibrary.objects.create(owner=user, book=book)
             return Response({'msg': 'Added to Mylibrary'}, status=201)
 
 
+        if mylibrary.exists():
+            mylibrary.delete()
+            return Response({'msg': 'Deleted from Mylibrary'}, status=204)
+        return Response({'msg': 'Mylibrary Not Found'}, status=404)
 
 
 
