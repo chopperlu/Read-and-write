@@ -3,14 +3,16 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
+from rest_framework.mixins import UpdateModelMixin, CreateModelMixin
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
 from book import serializers
-from book.models import Book
+from book.models import Book, UserBookRelation
 from book.permissions import IsOwner, IsOwnerOrAdmin
-from like.models import  Mylibrary
+from book.serializers import UserBookRelationSerializer
+from like.models import Mylibrary
 from like.serializers import LikeUserSerializer
 
 
@@ -70,6 +72,11 @@ class BookViewSet(ModelViewSet):
         return Response({'msg': 'Mylibrary Not Found'}, status=404)
 
 
+
+class UserBookRelationView(UpdateModelMixin, GenericViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = UserBookRelation.objects.all()
+    serializer_class = UserBookRelationSerializer
 
 
 

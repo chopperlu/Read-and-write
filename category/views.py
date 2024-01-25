@@ -21,8 +21,6 @@ class CategoryCreateListView(generics.ListCreateAPIView):
         if self.request.method == 'GET':
             return [permissions.AllowAny(), ]
         return [permissions.IsAdminUser(), ]
-
-
 class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = serializers.CategorySerializer

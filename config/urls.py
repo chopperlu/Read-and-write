@@ -6,6 +6,7 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
+from account import views
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -30,6 +31,7 @@ urlpatterns = [
     path('api/v1/books/', include('book.urls')),
     path('api/v1/comments/', include('comment.urls')),
     path('api/v1/likes/', include('like.urls')),
+
 ]
 
 urlpatterns += static(

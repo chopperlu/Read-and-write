@@ -31,7 +31,6 @@ class MylibrarySerializer(serializers.ModelSerializer):
         model = Mylibrary
         fields = ('id', 'book')
 
-
     def to_representation(self, instance):
         repr = super().to_representation(instance)
         repr['book_title'] = instance.book.title

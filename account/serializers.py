@@ -14,21 +14,15 @@ class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=8, write_only=True, required=True)
     password2 = serializers.CharField(min_length=8, write_only=True, required=True)
     email = serializers.EmailField(required=True)
-
-
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'password', 'password2', 'email')
-
-
     def validate(self, attrs):
         password2 = attrs.pop('password2')
         if password2 != attrs['password']:
             raise serializers.ValidationError('Passwords must match!')
         validate_password(attrs['password'])
         return attrs
-
-
     def create(self, validated_data):
         user = User.objects.create(**validated_data)
         user.set_password(validated_data['password'])

@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 from category.models import Category
@@ -24,14 +25,17 @@ class Book(models.Model):
         ordering = ('created_at',)
 
 
-# class Rating(models.Model):
-#     # id = models.CharField('IP address', max_length=20)
-#     star = models.ForeignKey(RatingStar, on_delete=models.CASCADE, verbose_name='star')
-#     movie = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='book')
-#
-#     def __str__(self):
-#         return f'{self.star} -> {self.book}'
-#
-#     class Meta:
-#         verbose_name = 'Rating'
-#         verbose_name_plural = 'Ratings'
+class UserBookRelation(models.Model):
+    RATE_CHOICES = (
+        (1, 'ok'),
+        (2, 'fine'),
+        (3, 'Good'),
+        (4, 'Amazing'),
+        (5, 'Incredible')
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    rate = models.PositiveSmallIntegerField(choices=RATE_CHOICES)
+
+    def __str__(self):
+        return f'{self.user} - {self.book} - {self.rate}'

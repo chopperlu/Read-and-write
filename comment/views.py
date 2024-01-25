@@ -12,12 +12,9 @@ class CommentCreateView(generics.CreateAPIView):
     def perform_create(self, serializer):
         serializer.save(owner = self.request.user)
 
-
 class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = serializers.CommentSerializer
-
-
 
     def get_permissions(self):
         if self.request.method in ('PUT', 'PATCH'):

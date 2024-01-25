@@ -1,6 +1,7 @@
 from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
 
-from book.models import Book
+from book.models import Book, UserBookRelation
 from comment.serializers import CommentSerializer
 
 
@@ -9,7 +10,8 @@ class BookListSerializer(serializers.ModelSerializer):
     category_name = serializers.ReadOnlyField(source='category.name')
     class Meta:
         model = Book
-        fields = ('id', 'title', 'preview', 'owner', 'owner_username', 'author', 'category', 'category_name', 'genre', 'description')
+        fields = ('id', 'title', 'preview', 'owner', 'owner_username',
+                  'author', 'category', 'category_name', 'genre', 'description')
 
     def to_representation(self, instance):
         repr = super().to_representation(instance)
@@ -47,16 +49,10 @@ class BookDetailSerializer(serializers.ModelSerializer):
 
 
 
-# class CreateRatingSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Rating
-#         fields = ('id', 'star', 'book')
-#
-#
-#     def create(self, validated_data):
-#         rating = Rating.objects.update_or_create(
-#
-#         )
+class UserBookRelationSerializer(ModelSerializer):
+    class Meta:
+        model = UserBookRelation
+        fields = '__all__'
 
 
 
